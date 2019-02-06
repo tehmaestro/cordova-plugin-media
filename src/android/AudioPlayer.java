@@ -192,6 +192,16 @@ public class AudioPlayer implements OnCompletionListener, OnPreparedListener, On
             }
         }
 
+        // Create missing folders structure
+        Integer lastDirSeparator = file.lastIndexOf("/");
+        if(lastDirSeparator > 0) {
+            File dirs = new File(file.substring(0, lastDirSeparator));
+            if(!dirs.exists()) {
+                LOG.d(LOG_TAG, "Creating dirs");
+                dirs.mkdirs();
+            }
+        }
+
         int size = this.tempFiles.size();
         LOG.d(LOG_TAG, "size = " + size);
 
