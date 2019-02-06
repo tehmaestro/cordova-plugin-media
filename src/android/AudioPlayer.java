@@ -109,9 +109,9 @@ public class AudioPlayer implements OnCompletionListener, OnPreparedListener, On
     private String generateTempFile() {
       String tempFileName = null;
       if (Environment.getExternalStorageState().equals(Environment.MEDIA_MOUNTED)) {
-          tempFileName = Environment.getExternalStorageDirectory().getAbsolutePath() + "/tmprecording-" + System.currentTimeMillis() + ".3gp";
+          tempFileName = Environment.getExternalStorageDirectory().getAbsolutePath() + "/tmprecording-" + System.currentTimeMillis() + ".mp3";
       } else {
-          tempFileName = "/data/data/" + handler.cordova.getActivity().getPackageName() + "/cache/tmprecording-" + System.currentTimeMillis() + ".3gp";
+          tempFileName = "/data/data/" + handler.cordova.getActivity().getPackageName() + "/cache/tmprecording-" + System.currentTimeMillis() + ".mp3";
       }
       return tempFileName;
     }
@@ -153,8 +153,11 @@ public class AudioPlayer implements OnCompletionListener, OnPreparedListener, On
             this.audioFile = file;
             this.recorder = new MediaRecorder();
             this.recorder.setAudioSource(MediaRecorder.AudioSource.MIC);
-            this.recorder.setOutputFormat(MediaRecorder.OutputFormat.AAC_ADTS); // RAW_AMR);
+            this.recorder.setOutputFormat(MediaRecorder.OutputFormat.MPEG_4); // THREE_GPP);
             this.recorder.setAudioEncoder(MediaRecorder.AudioEncoder.AAC); //AMR_NB);
+            this.recorder.setAudioChannels(1);
+            this.recorder.setAudioSamplingRate(22050);
+            this.recorder.setAudioEncodingBitRate(48000);
             this.tempFile = generateTempFile();
             this.recorder.setOutputFile(this.tempFile);
             try {
