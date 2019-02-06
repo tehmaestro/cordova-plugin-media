@@ -55,6 +55,7 @@ Media.MEDIA_STATE = 1;
 Media.MEDIA_DURATION = 2;
 Media.MEDIA_POSITION = 3;
 Media.MEDIA_ERROR = 9;
+Media.PERMISSION_ERROR = 20;
 
 // Media states
 Media.MEDIA_NONE = 0;
@@ -243,6 +244,12 @@ function onMessageFromNative(msg) {
     }
 }
 
+function onError(code) {
+	if(Media.onError) {
+		Media.onError(code);
+	}
+}
+
 if (cordova.platformId === 'android' || cordova.platformId === 'amazon-fireos' || cordova.platformId === 'windowsphone') {
 
     var channel = require('cordova/channel');
@@ -251,7 +258,7 @@ if (cordova.platformId === 'android' || cordova.platformId === 'amazon-fireos' |
     channel.waitForInitialization('onMediaPluginReady');
 
     channel.onCordovaReady.subscribe(function() {
-        exec(onMessageFromNative, undefined, 'Media', 'messageChannel', []);
+        exec(onMessageFromNative, onError, 'Media', 'messageChannel', []);
         channel.initializationComplete('onMediaPluginReady');
     });
 }

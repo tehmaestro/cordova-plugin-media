@@ -524,7 +524,9 @@ public class AudioHandler extends CordovaPlugin {
         {
             if(r == PackageManager.PERMISSION_DENIED)
             {
-                this.messageChannel.sendPluginResult(new PluginResult(PluginResult.Status.ERROR, PERMISSION_DENIED_ERROR));
+                PluginResult pluginResult = new PluginResult(PluginResult.Status.ERROR, PERMISSION_DENIED_ERROR);
+                pluginResult.setKeepCallback(true);
+                this.messageChannel.sendPluginResult(pluginResult);
                 return;
             }
         }
